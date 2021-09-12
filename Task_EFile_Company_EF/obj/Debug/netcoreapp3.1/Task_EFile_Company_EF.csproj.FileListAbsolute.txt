@@ -1,0 +1,15 @@
+C:\Users\elshh\source\repos\Task_EFile_Company\Task_EFile_Company_EF\bin\Debug\netcoreapp3.1\Task_EFile_Company_EF.deps.json
+C:\Users\elshh\source\repos\Task_EFile_Company\Task_EFile_Company_EF\bin\Debug\netcoreapp3.1\Task_EFile_Company_EF.runtimeconfig.json
+C:\Users\elshh\source\repos\Task_EFile_Company\Task_EFile_Company_EF\bin\Debug\netcoreapp3.1\Task_EFile_Company_EF.runtimeconfig.dev.json
+C:\Users\elshh\source\repos\Task_EFile_Company\Task_EFile_Company_EF\bin\Debug\netcoreapp3.1\Task_EFile_Company_EF.dll
+C:\Users\elshh\source\repos\Task_EFile_Company\Task_EFile_Company_EF\bin\Debug\netcoreapp3.1\Task_EFile_Company_EF.pdb
+C:\Users\elshh\source\repos\Task_EFile_Company\Task_EFile_Company_EF\bin\Debug\netcoreapp3.1\Task_EFile_Company_Domain.dll
+C:\Users\elshh\source\repos\Task_EFile_Company\Task_EFile_Company_EF\bin\Debug\netcoreapp3.1\Task_EFile_Company_Domain.pdb
+C:\Users\elshh\source\repos\Task_EFile_Company\Task_EFile_Company_EF\obj\Debug\netcoreapp3.1\Task_EFile_Company_EF.csprojAssemblyReference.cache
+C:\Users\elshh\source\repos\Task_EFile_Company\Task_EFile_Company_EF\obj\Debug\netcoreapp3.1\Task_EFile_Company_EF.AssemblyInfoInputs.cache
+C:\Users\elshh\source\repos\Task_EFile_Company\Task_EFile_Company_EF\obj\Debug\netcoreapp3.1\Task_EFile_Company_EF.AssemblyInfo.cs
+C:\Users\elshh\source\repos\Task_EFile_Company\Task_EFile_Company_EF\obj\Debug\netcoreapp3.1\Task_EFile_Company_EF.csproj.CoreCompileInputs.cache
+C:\Users\elshh\source\repos\Task_EFile_Company\Task_EFile_Company_EF\obj\Debug\netcoreapp3.1\Task_EFile_Company_EF.csproj.CopyComplete
+C:\Users\elshh\source\repos\Task_EFile_Company\Task_EFile_Company_EF\obj\Debug\netcoreapp3.1\Task_EFile_Company_EF.dll
+C:\Users\elshh\source\repos\Task_EFile_Company\Task_EFile_Company_EF\obj\Debug\netcoreapp3.1\Task_EFile_Company_EF.pdb
+C:\Users\elshh\source\repos\Task_EFile_Company\Task_EFile_Company_EF\obj\Debug\netcoreapp3.1\Task_EFile_Company_EF.genruntimeconfig.cache

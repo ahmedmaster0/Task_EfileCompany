@@ -1,0 +1,221 @@
+﻿@model IEnumerable<ViewModel_Contact>
+@{
+    ViewData["Title"] = "All Contacts";
+}
+
+
+    <style>
+        .MYStyle {
+            background-color: #f15353 !important;
+        }
+        
+    </style>
+
+<h2 class="text-center">
+    <i class="bi bi-person"></i>
+    List Of Contacts
+</h2>
+<hr />
+<a class="btn btn-primary mb-4" style="color:white" asp-action="Create">
+    <i class="bi bi-plus-circle"></i>Add New Contact
+</a>
+
+@if (Model.Count() == 0)
+{
+    <div class="alert alert-warning" role="alert">
+        No Contacts Found!
+    </div>
+}
+else
+{
+    <table id="MyTable" class="display" style="width:100%">
+        <thead>
+            <tr>
+                <th hidden>Id</th>
+                <th>Name</th>
+                <th>Phone</th>
+                <th>Address</th>
+                <th>Notes</th>
+                <th></th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var contact in Model)
+            {
+               
+            <tr id="row_@contact.Id" class="@(contact.FlagEdting? "MYStyle" : "" )">
+                <td hidden>@contact.Id</td>
+                <td>@contact.Name</td>
+                <td>@contact.Phone</td>
+                <td>@contact.Address</td>
+                <td>@contact.Notes</td>
+                <td>
+                    <a class="btn btn-outline-secondary @(contact.FlagEdting ? "disabled":"") "  id="btnedit_@contact.Id" asp-action="Edit" asp-route-id="@contact.Id">Edit</a>
+                </td>
+                <td>
+                    <input type="hidden" id="inptId" value="@(contact.Id)" />
+                    <a class="btn btn-danger @(contact.FlagEdting ? "disabled":"") classtest" id="btnDelete_@contact.Id">Delete</a>
+                </td>
+                <td>
+                    <label id="lbltext_@contact.Id">@(contact.FlagEdting ? "Locked Now":"")</label>
+                </td>
+            </tr>
+            }
+
+
+
+        </tbody>
+     
+    </table>
+}
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Deleting ! </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="Value_Id" />   
+                Are You Sure to Delete <label id="ibiname"></label>?!
+            </div>
+            <div class="modal-footer">
+                <input type="hidden" id="deletedid"   />
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <a class="btn btn-danger" id="DeletedBtn" >Delete</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts{
+
+    <script>
+
+        $(document).ready(function () {
+
+            // ajax call to get this object
+            // show modal
+            //btn save to delete from db (ajax call) 
+            var id = $('#ibiname').text()
+            $('.classtest').on('click', function () {
+                var id = $('#inptId').val();
+                $.ajax({
+                    url: '/Contact/GetByID/' + id,
+                    method: 'GET',
+                    success: (res) => {
+                        $('#exampleModal').modal('show');
+                        console.log(res);
+                        $('#ibiname').text(res.name);
+                        $('#deletedid').val(res.id);
+                    },
+                    error: (err) => {
+                        console.log(err);
+                    }
+                })
+            })
+
+            $('#DeletedBtn').on('click', function () {
+                console.log($('#deletedid').val())
+                id = $('#deletedid').val();
+                $.ajax({
+                    url: '/Contact/Delete/' + id,
+                    method: 'GET',
+                    success: (res) => {
+                        $('#exampleModal').modal('hide');
+                        console.log(res)
+                    },
+                    error: (err) => {
+                        console.log(err)
+                    }
+                })
+            })
+            
+
+            $('#MyTable').DataTable({
+                "lengthMenu": [5, 10, 25],
+                "searching": true
+            });
+
+
+            var connection = new signalR.HubConnectionBuilder().withUrl("/signalR").build();
+            connection.start();
+
+            connection.on('Send_Editing_ToALL_Client', function (e,b) {
+                
+                LoadDataEditing(e,b);
+
+            })
+            connection.on('Send_Deleteing_ToALL_Client', function (e) {
+                // console.log(e)
+                DeleteItem(e);
+
+            })
+
+            function DeleteItem(e) {
+                var table = $('#MyTable').DataTable();
+                table.rows().eq(0).each(function (index) {
+                    var row = table.row(index);
+
+                    var data = row.data();
+                    if (data[0] == e.id) {
+                        // table.row(index).delete()
+                        $('#row_' + e.id).remove().draw()
+                    }
+
+                });
+            }
+
+            function LoadDataEditing(e, b) {
+                var table = $('#MyTable').DataTable();
+              
+                if (!b) {
+                    console.log(b);
+                    table.rows().eq(0).each(function (index) {
+                        var row = table.row(index);
+
+                        var data = row.data();
+                        if (data[0] == e.id) {
+                            $("#btnedit_" + e.id).addClass("disabled")
+                            $("#btnDelete_" + e.id).addClass("disabled")
+                            $("#row_" + e.id).css("background-color", "#f15353")
+                            $('#lbltext_' + e.id).text("Locked Now")
+                        }
+
+                    });
+                } else {
+                    table.rows().eq(0).each(function (index) {
+                        var row = table.row(index);
+
+                        var data = row.data();
+                        if (data[0] == e.id) {
+                            table.row(row).remove().draw();
+                            table.row.add([
+                                e.name,
+                                e.phone,
+                                e.address,
+                                e.notes,
+                                data[5],
+                                data[6],
+                                data[7],
+                                ""
+                            ]).draw(true);
+                        }
+
+                    });
+                }
+            }
+        });
+           
+          
+    </script>
+}
